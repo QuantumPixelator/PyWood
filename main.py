@@ -225,8 +225,8 @@ class App(ctk.CTk):
         with open(file_path, 'w') as file:
             json.dump(position, file)
 
-        # Close the main window
-        self.destroy()
+        # Close the app process
+        quit()
 
 app = App()
 app.mainloop()
