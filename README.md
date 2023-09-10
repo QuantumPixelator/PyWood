@@ -23,12 +23,6 @@
    - macOS
    - Windows
 
-  ## To Do
-  - Add support for images and thumbnails (next update - soon)
-  - Import projects from JSON or CSV files (coming soon)
-  - Alerts for upcoming or late projects
-  - Database for Customers, Tools, etc
-
   ## License
   - MIT license
 
