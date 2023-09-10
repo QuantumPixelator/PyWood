@@ -86,7 +86,7 @@ class App(ctk.CTk):
 
     def _configure_ui(self):
         """Configure the UI components."""
-        self.label = ctk.CTkLabel(self, text="Woodworking :: Project Planner", corner_radius=10, text_color=("blue", "yellow"), fg_color=("gray", "black"))
+        self.label = ctk.CTkLabel(self, text="Woodworking :: Project Manager", corner_radius=10, text_color=("blue", "yellow"), fg_color=("gray", "black"))
         self.label.grid(row=0, column=0, padx=20, pady=20, sticky="ew", columnspan=2)
 
         self.button_new = ctk.CTkButton(self, text="New Project", command=self.new_project, corner_radius=10, text_color=("blue", "yellow"))
