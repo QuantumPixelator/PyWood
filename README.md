@@ -1,5 +1,5 @@
 
-  # Woodworking :: Project Planner  
+  # Woodworking :: Project Manager  
   A simple GUI app for keeping track of woodworking projects.  
   
   ## Get Started  
