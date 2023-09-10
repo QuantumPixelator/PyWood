@@ -115,7 +115,7 @@ def create_new_project_window(app_instance, update_options_menu=None):
     ##### Display the new window #####
     new_project_window = ctk.CTk()
     new_project_window.title("New Project")
-    new_project_window.geometry("785x820")
+    new_project_window.geometry("785x700")
     
 
 
@@ -124,7 +124,7 @@ def create_new_project_window(app_instance, update_options_menu=None):
     #############################  LEFT SIDE  #############################
 
     # Project Name
-    ctk.CTkLabel(new_project_window, text="Project Name:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=10)
+    ctk.CTkLabel(new_project_window, text="Project Name / File Name:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=10)
     project_name_entry = ctk.CTkEntry(new_project_window, corner_radius=10, width=400)
     project_name_entry.place(x=15, y=40)
 
