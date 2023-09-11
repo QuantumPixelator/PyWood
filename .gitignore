@@ -4,3 +4,4 @@ projects/deleted/*
 __pycache__/
 window_position.json
 venv/
+original.py

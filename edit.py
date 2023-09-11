@@ -7,6 +7,12 @@ from json import dump
 from tkinter import messagebox
 from tkcalendar import DateEntry
 
+light_color_primary = "blue"  # Text color, light mode
+dark_color_primary = "#ECD08E" # Text color, dark mode
+
+light_color_secondary = "gray"
+dark_color_secondary = "black"
+
 def edit_project_window(app_instance, filename, update_options_menu=None):
     # Create a new window for editing a project
     edit_window = ctk.CTk()
@@ -99,7 +105,7 @@ def edit_project_window(app_instance, filename, update_options_menu=None):
     
     def tab_order():  # Set tab order
         project_name_entry.focus()  # Focus starts on the project name box
-        widgets =[project_name_entry, description_textbox, cut_list_textbox, special_instructions_textbox, project_budget_entry, cost_of_materials_entry, cost_of_labor_entry, total_cost_entry,  required_tools_entry, required_tools_button, delete_tool_button, required_supplies_entry, required_supplies_button, delete_supply_button, cancel_button, update_button]
+        widgets =[project_name_entry, description_textbox, cut_list_textbox, special_instructions_textbox, project_budget_entry, cost_of_materials_entry, cost_of_labor_entry, total_cost_entry,  required_tools_entry, required_tools_button, delete_tool_button, required_supplies_entry, required_supplies_button, delete_supply_button, cancel_button, save_button]
         for w in widgets:
             w.lift()
 
@@ -113,91 +119,136 @@ def edit_project_window(app_instance, filename, update_options_menu=None):
         # Set the date in the DateEntry widget
         # start_date.set_date(date_object)
     
+    #############################  LEFT SIDE  #############################
+
     # Project Name
-    ctk.CTkLabel(edit_window, text="Project Name:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=10)
+    ctk.CTkLabel(edit_window, text="Project Name / File Name:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=10)
     project_name_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=400)
     project_name_entry.place(x=15, y=40)
     project_name_entry.insert(0, project_data['name']) # Populate with existing data
 
     # Description
-    ctk.CTkLabel(edit_window, text="Description:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=80)
-    description_textbox = ctk.CTkTextbox(edit_window, width=400, height=100, corner_radius=10, wrap="word")
+    ctk.CTkLabel(edit_window, text="Description:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=80)
+    description_textbox = ctk.CTkTextbox(edit_window, width=400, height=80, corner_radius=10, wrap="word")
     description_textbox.place(x=15, y=110)
     description_textbox.insert("1.0", project_data['description']) # Populate with existing data
     description_textbox.bind("<Tab>", focus_next_window)
 
     # Cut List
-    ctk.CTkLabel(edit_window, text="Cut List:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=220)
-    cut_list_textbox = ctk.CTkTextbox(edit_window, width=400, height=100, corner_radius=10, wrap="word")
-    cut_list_textbox.place(x=15, y=250)
+    ctk.CTkLabel(edit_window, text="Cut List:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=200)
+    cut_list_textbox = ctk.CTkTextbox(edit_window, width=400, height=80, corner_radius=10, wrap="word")
+    cut_list_textbox.place(x=15, y=230)
     cut_list_textbox.insert("1.0", project_data['cut_list']) # Populate with existing data
     cut_list_textbox.bind("<Tab>", focus_next_window)
 
     # Special Instructions
-    ctk.CTkLabel(edit_window, text="Special Instructions:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=370)
-    special_instructions_textbox = ctk.CTkTextbox(edit_window, width=400, height=100, corner_radius=10, wrap="word")
-    special_instructions_textbox.place(x=15, y=400)
+    ctk.CTkLabel(edit_window, text="Special Instructions:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=320)
+    special_instructions_textbox = ctk.CTkTextbox(edit_window, width=400, height=80, corner_radius=10, wrap="word")
+    special_instructions_textbox.place(x=15, y=350)
     special_instructions_textbox.insert("1.0", project_data['special_instructions']) # Populate with existing data
     special_instructions_textbox.bind("<Tab>", focus_next_window)
+    
+    # Notes
+    ctk.CTkLabel(edit_window, text="Notes:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=440)
+    notes_textbox = ctk.CTkTextbox(edit_window, width=400, height=50, corner_radius=10, wrap="word")
+    notes_textbox.place(x=15, y=470)
+    notes_textbox.insert("1.0", project_data['notes']) # Populate with existing data
+    notes_textbox.bind("<Tab>", focus_next_window)
+    
+    # Customer Information
+    ctk.CTkLabel(edit_window, text="Customer:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=550)
+    customer_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    customer_entry.insert(0, project_data['customer_entry']) # Populate with existing data
+    customer_entry.place(x=15, y=580)
+    
+    ctk.CTkLabel(edit_window, text="Phone:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=225, y=550)
+    phone_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    phone_entry.insert(0, project_data['phone_entry'])
+    phone_entry.place(x=225, y=580)
+    
+    ctk.CTkLabel(edit_window, text="Email:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=15, y=620)
+    email_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    email_entry.insert(0, project_data['email_entry'])
+    email_entry.place(x=15, y=650)
+    
+    ctk.CTkLabel(edit_window, text="Other:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=225, y=620)
+    other_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    other_entry.insert(0, project_data['other_entry'])
+    other_entry.place(x=225, y=650)    
+    
+    
+    #############################  RIGHT SIDE  #############################
 
     # Required Tools
-    ctk.CTkLabel(edit_window, text="Required Tools:", corner_radius=10, text_color=("blue", "yellow")).place(x=450, y=10)
-    required_tools_listbox = CTkListbox.CTkListbox(edit_window, width=300, height=100, corner_radius=10)
+    ctk.CTkLabel(edit_window, text="Required Tools:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=450, y=10)
+    required_tools_listbox = CTkListbox.CTkListbox(edit_window, width=120, height=100, corner_radius=10)
     required_tools_listbox.place(x=450, y=40)
     required_tools_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
     required_tools_entry.place(x=450, y=275)
-    required_tools_button = ctk.CTkButton(edit_window, text="Add Tool", corner_radius=10, command=add_tool, text_color=("blue", "yellow"))
-    required_tools_button.place(x=635, y=275)
-    delete_tool_button = ctk.CTkButton(edit_window, text="Delete Tool", command=delete_tool, text_color=("blue", "yellow"), fg_color="#FF6666", hover_color="#FF3333", corner_radius=10)
-    delete_tool_button.place(x=635, y=305)
-
+    required_tools_button = ctk.CTkButton(edit_window, text="Add Tool", corner_radius=10, command=add_tool, text_color=(light_color_primary, dark_color_primary), width=150)
+    required_tools_button.place(x=450, y=315)
+    delete_tool_button = ctk.CTkButton(edit_window, text="Delete Tool", command=delete_tool, text_color=(light_color_primary, dark_color_primary), width=150, fg_color="#FF6666", hover_color="#FF3333", corner_radius=10)
+    delete_tool_button.place(x=450, y=345)
+    
     for tool in required_tools:
         required_tools_listbox.insert("END", tool)
 
     # Required Supplies
-    ctk.CTkLabel(edit_window, text="Required Supplies:", corner_radius=10, text_color=("blue", "yellow")).place(x=450, y=320)
-    required_supplies_listbox = CTkListbox.CTkListbox(edit_window, width=300, height=100, corner_radius=10)
-    required_supplies_listbox.place(x=450, y=350)
+    ctk.CTkLabel(edit_window, text="Required Supplies:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=620, y=10)
+    required_supplies_listbox = CTkListbox.CTkListbox(edit_window, width=120, height=100, corner_radius=10)
+    required_supplies_listbox.place(x=620, y=40)
     required_supplies_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
-    required_supplies_entry.place(x=450, y=585)
-    required_supplies_button = ctk.CTkButton(edit_window, text="Add Supply", corner_radius=10, command=add_supply, text_color=("blue", "yellow"))
-    required_supplies_button.place(x=635, y=585)
-    delete_supply_button = ctk.CTkButton(edit_window, text="Delete Supply", command=delete_supply, text_color=("blue", "yellow"), fg_color="#FF6666", hover_color="#FF3333", corner_radius=10)
-    delete_supply_button.place(x=635, y=615)
-
+    required_supplies_entry.place(x=620, y=275)
+    required_supplies_button = ctk.CTkButton(edit_window, text="Add Supply", corner_radius=10, command=add_supply, text_color=(light_color_primary, dark_color_primary), width=150)
+    required_supplies_button.place(x=620, y=315)
+    delete_supply_button = ctk.CTkButton(edit_window, text="Delete Supply", command=delete_supply, text_color=(light_color_primary, dark_color_primary), width=150, fg_color="#FF6666", hover_color="#FF3333", corner_radius=10)
+    delete_supply_button.place(x=620, y=345)
+    
     for supply in required_supplies:
         required_supplies_listbox.insert("END", supply)
 
     # Budgeting
-    ctk.CTkLabel(edit_window, text="Project Budget:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=525)
-    project_budget_entry = ctk.CTkEntry(edit_window, corner_radius=10)
-    project_budget_entry.place(x=15, y=550)
-    project_budget_entry.insert(0, project_data['budget']['project_budget']) # Populate with existing data
+    ctk.CTkLabel(edit_window, text="Project Budget:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=450, y=400)
+    project_budget_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    project_budget_entry.insert(0, project_data['project_budget'])
+    project_budget_entry.place(x=450, y=430)
+    
+    ctk.CTkLabel(edit_window, text="Materials Cost:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=450, y=470)
+    cost_of_materials_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    cost_of_materials_entry.insert(0, project_data['cost_of_materials'])
+    cost_of_materials_entry.place(x=450, y=500)
+    
+    ctk.CTkLabel(edit_window, text="Labor Cost:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=620, y=400)
+    cost_of_labor_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    cost_of_labor_entry.insert(0, project_data['cost_of_labor'])
+    cost_of_labor_entry.place(x=620, y=430)
+    
+    ctk.CTkLabel(edit_window, text="Total Cost:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=620, y=470)
+    total_cost_entry = ctk.CTkEntry(edit_window, corner_radius=10, width=150)
+    total_cost_entry.insert(0, project_data['total_cost'])
+    total_cost_entry.place(x=620, y=500)
+    
+    # DateEntry for Start and Completion
+    ctk.CTkLabel(edit_window, text="Start:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=450, y=550)
+    ctk.CTkLabel(edit_window, text="Complete:", corner_radius=10, text_color=(light_color_primary, dark_color_primary)).place(x=620, y=550)
+    
+    start_date = DateEntry(edit_window, width=12, background="black", foreground="yellow", borderwidth=2)
+    completion_date = DateEntry(edit_window, width=12, background="black", foreground="yellow", borderwidth=2)
+    start_date.place(x=450, y=580)
+    start_date.set_date(project_data['start_date'])
+    completion_date.place(x=620, y=580)
+    completion_date.set_date(project_data['completion_date'])
 
-    ctk.CTkLabel(edit_window, text="Cost of Materials:", corner_radius=10, text_color=("blue", "yellow")).place(x=200, y=525)
-    cost_of_materials_entry = ctk.CTkEntry(edit_window, corner_radius=10)
-    cost_of_materials_entry.place(x=200, y=550)
-    cost_of_materials_entry.insert(0, project_data['budget']['cost_of_materials']) # Populate with existing data
-
-    ctk.CTkLabel(edit_window, text="Cost of Labor:", corner_radius=10, text_color=("blue", "yellow")).place(x=200, y=600)
-    cost_of_labor_entry = ctk.CTkEntry(edit_window, corner_radius=10)
-    cost_of_labor_entry.place(x=200, y=625)
-    cost_of_labor_entry.insert(0, project_data['budget']['cost_of_labor']) # Populate with existing data
-
-    ctk.CTkLabel(edit_window, text="Total Cost:", corner_radius=10, text_color=("blue", "yellow")).place(x=15, y=600)
-    total_cost_entry = ctk.CTkEntry(edit_window, corner_radius=10)
-    total_cost_entry.place(x=15, y=625)
-    total_cost_entry.insert(0, project_data['budget']['total_cost']) # Populate with existing data
-
-    # Update button
-    update_button = ctk.CTkButton(edit_window, corner_radius=10, text="Update Project", text_color=("white", "black"),  fg_color="#99FFCC", hover_color="#00F800", command=save_project)
-    update_button.place(x=635, y=660)
+    # Save button
+    save_button = ctk.CTkButton(edit_window, corner_radius=10, text="Save Project", text_color=("white", "black"), width=150,  fg_color="#99FFCC", hover_color="#00F800", command=save_project)
+    save_button.place(x=620, y=650)
 
     # Cancel Button
-    cancel_button = ctk.CTkButton(edit_window, text="Cancel", command=edit_window.destroy, corner_radius=10, text_color=("blue", "yellow"), fg_color="#FF6666", hover_color="#FF3333")
-    cancel_button.place(x=450, y=660)
+    cancel_button = ctk.CTkButton(edit_window, text="Cancel", command=edit_window.destroy, corner_radius=10, width=150, text_color=(light_color_primary, dark_color_primary), fg_color="#FF6666", hover_color="#FF3333")
+    cancel_button.place(x=450, y=650)
 
-    tab_order()  # Set the widget's tab order
+
+    tab_order()  # Set the tab order for our widgets
     
     edit_window.focus_set()
     edit_window.mainloop()

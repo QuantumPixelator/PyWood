@@ -23,6 +23,9 @@
    - macOS
    - Windows
 
+  ## To Do
+   - Add links to project imagges or folder
+
   ## License
   - MIT license
 
@@ -30,3 +33,4 @@
   ![Screenshot](images/ss1.png)
   
   ![Screenshot](images/ss2.png)
+   - This screenshot is outdated, but shows the basic functionality

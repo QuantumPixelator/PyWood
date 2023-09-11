@@ -1,0 +1,9 @@
+Babel==2.12.1
+CTkListbox==0.9
+CTkMessagebox==2.5
+customtkinter==5.2.0
+darkdetect==0.8.0
+tkcalendar==1.6.1
+os
+json
+tkinter

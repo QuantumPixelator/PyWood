@@ -4,12 +4,20 @@ from new import create_new_project_window
 from edit import edit_project_window
 import os
 import json
+from tkcalendar import DateEntry
 
-ctk.set_default_color_theme("blue")  # also can use dark-blue, or green. For creating a custom theme, see the customTKinter library documentation. This app supports light and dark mode based on system settings.
+theme = "dark-blue"  # Premade themes are: blue, dark-blue, and green
+ctk.set_default_color_theme(theme)
+
+light_color_primary = "blue"  # Text color, light mode
+dark_color_primary = "#ECD08E" # Text color, dark mode
+
+light_color_secondary = "gray"
+dark_color_secondary = "black"
 
 class App(ctk.CTk):
-    """Woodworking Projects Application."""
-
+    """Woodworking Projects Manager, main application."""
+    
     def __init__(self):
         super().__init__()
         
@@ -30,21 +38,17 @@ class App(ctk.CTk):
         os.makedirs(deleted_folder_path, exist_ok=True)
         
         current_folder_path = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_folder_path, 'window_position.json')
-
-        # Load previous window position if available
+        
+        # Initialize radio_var here if it needs to be accessed early, need to move the def for radio buttons up
+        default_theme = "green"  # This can be: blue, green, dark-blue. To use custom themes, see the CTk docs
+        self.radio_var = ctk.StringVar(value=default_theme)
+                    
+        # Load previous window position and theme if available
         try:
-            with open(file_path, 'r') as file:
-                position = json.load(file)
-                self.geometry(f"{position['width']}x{position['height']}+{position['x']}+{position['y']}")
-        except FileNotFoundError:
-            self.geometry("490x425")  # Default position
-            
-        # Load previous window position if available
-        try:
-            with open('window_position.json', 'r') as file:
-                position = json.load(file)
-                self.geometry(f"{position['width']}x{position['height']}+{position['x']}+{position['y']}")
+            with open('settings.json', 'r') as file:
+                settings = json.load(file)
+                self.geometry(f"{settings['width']}x{settings['height']}+{settings['x']}+{settings['y']}")
+                
         except FileNotFoundError:
             self.geometry("500x425")  # Default position
 
@@ -82,32 +86,31 @@ class App(ctk.CTk):
             # Call edit_project_window function
             edit_project_window(self, filename, update_options_menu=self.update_options_menu)
 
-
-
     def _configure_ui(self):
         """Configure the UI components."""
-        self.label = ctk.CTkLabel(self, text="Woodworking :: Project Manager", corner_radius=10, text_color=("blue", "yellow"), fg_color=("gray", "black"))
+        self.label = ctk.CTkLabel(self, text="Woodworking :: Project Manager", corner_radius=10, text_color=(light_color_primary, dark_color_primary), fg_color=(light_color_secondary, dark_color_secondary))
         self.label.grid(row=0, column=0, padx=20, pady=20, sticky="ew", columnspan=2)
 
-        self.button_new = ctk.CTkButton(self, text="New Project", command=self.new_project, corner_radius=10, text_color=("blue", "yellow"))
+        self.button_new = ctk.CTkButton(self, text="New Project", command=self.new_project, corner_radius=10, text_color=(light_color_primary, dark_color_primary))
         self.button_new.grid(row=1, column=0, padx=20, pady=20, sticky="w", columnspan=2)
 
-        self.button_edit = ctk.CTkButton(self, text="Edit Project", command=self.edit_project, corner_radius=10, text_color=("blue", "yellow"))
+        self.button_edit = ctk.CTkButton(self, text="Edit Project", command=self.edit_project, corner_radius=10, text_color=(light_color_primary, dark_color_primary))
         self.button_edit.grid(row=3, column=0, padx=20, pady=20, sticky="w", columnspan=2)
 
-        self.button_archive = ctk.CTkButton(self, text="Archive Project", command=self.archive_project, corner_radius=10, text_color=("blue", "yellow"))
+        self.button_archive = ctk.CTkButton(self, text="Archive Project", command=self.archive_project, corner_radius=10, text_color=(light_color_primary, dark_color_primary))
         self.button_archive.grid(row=4, column=0, padx=20, pady=20, sticky="w", columnspan=2)
 
-        self.button_delete = ctk.CTkButton(self, text="Delete Project", command=self.delete_project, corner_radius=10, text_color=("blue", "yellow"), fg_color="#FF6666", hover_color="#FF3333")
+        self.button_delete = ctk.CTkButton(self, text="Delete Project", command=self.delete_project, corner_radius=10, text_color=(light_color_primary, dark_color_primary), fg_color="#FF6666", hover_color="#FF3333")
         self.button_delete.grid(row=5, column=0, padx=20, pady=20, sticky="w", columnspan=2)
         
         self.button_empty_trash = ctk.CTkButton(self, text="Empty Trash", command=self.empty_trash, corner_radius=10, text_color=("white", "black"), fg_color="#FFCC99", hover_color="#FF9933")
         self.button_empty_trash.grid(row=6, column=0, padx=20, pady=20, sticky="w", columnspan=2)
         
         self.options_menu_var = ctk.StringVar(value=self.projects[0])
-        self.options_menu = ctk.CTkOptionMenu(self, values=self.projects, variable=self.options_menu_var, width=250, corner_radius=10)
+        self.options_menu = ctk.CTkOptionMenu(self, values=self.projects, variable=self.options_menu_var, width=250, corner_radius=10, text_color=(light_color_primary, dark_color_primary))
         self.options_menu.grid(row=1, column=1, padx=20, pady=20, sticky="e", columnspan=1)
 
+    
     def load_projects(self):
         """Load projects from the 'projects' folder."""
         projects_path = os.path.join(os.path.dirname(__file__), 'projects')
@@ -210,20 +213,20 @@ class App(ctk.CTk):
         height, x, y = rest.split('+')
 
         # Save the position in a dictionary
-        position = {
+        information = {
             'width': width,
             'height': height,
             'x': x,
-            'y': y
+            'y': y,
         }
 
         # Determine the path to save the JSON file
         current_folder_path = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_folder_path, 'window_position.json')
+        file_path = os.path.join(current_folder_path, 'settings.json')
 
         # Write the position to the file
         with open(file_path, 'w') as file:
-            json.dump(position, file)
+            json.dump(information, file)
 
         # Close the app process
         quit()
