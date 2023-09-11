@@ -3,7 +3,10 @@
   A simple GUI app for keeping track of woodworking projects.  
   
   ## Get Started  
-  Clone, fork, or download the code. From a command line or terminal inside the folder that contains the code, type this and press enter:  python3 main.py  
+  - Clone, fork, or download the code.
+  - Run this command in your virtual environment:
+  
+          pip install -r requirements.txt
   
   ## Features
       
@@ -24,7 +27,7 @@
    - Windows
 
   ## To Do
-   - Add links to project imagges or folder
+   - Add links to project images or folder
 
   ## License
   - MIT license
