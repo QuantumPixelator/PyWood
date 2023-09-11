@@ -36,4 +36,3 @@
   ![Screenshot](images/ss1.png)
   
   ![Screenshot](images/ss2.png)
-   - This screenshot is outdated, but shows the basic functionality
