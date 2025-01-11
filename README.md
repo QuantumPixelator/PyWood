@@ -1,6 +1,6 @@
 
   # Woodworking :: Project Manager  
-  A simple GUI app for keeping track of woodworking projects.  
+  A simple GUI app for keeping track of woodworking projects.  This is my first GUI Python app.
   
   ## Get Started  
   - Clone, fork, or download the code.
